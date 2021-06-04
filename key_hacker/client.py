@@ -16,6 +16,8 @@ def main():
     try:
         with socket.create_connection(input_connection_info()) as sock:
             print("k time to do malicious stuff")
+    except:
+        print("rip something failed")
 
 if __name__ == "__main__":
     main()
