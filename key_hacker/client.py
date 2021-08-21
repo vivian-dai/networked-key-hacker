@@ -19,8 +19,8 @@ def main():
     try:
         with socket.create_connection(input_connection_info()) as sock:
             print("k time to do malicious stuff")
-            sock.send(input("wanna control someone's keyboard? (y/n)"))
-            sock.send(input("wanna create a new room? (y/n)"))
+            sock.send(input("wanna control someone's keyboard? (y/n)").encode())
+            sock.send(input("wanna create a new room? (y/n)").encode())
             
     except:
         print("rip something failed")

@@ -16,7 +16,12 @@ def client_listener(conn, addr):
         addr (tuple): where the connection is from 
     """
     print(f"connection from {addr}")
-    # TODO: infinite loop for always listening
+    control = conn.recv(4096).decode("utf-8")
+    new_room = conn.recv(4096).decode("utf-8")
+    #TODO: make checks for controlling and new room then send stuff back to client
+    while True:
+        msg = conn.recv(4096).decode("utf-8")
+        print(msg)
 
 def main():
     """
