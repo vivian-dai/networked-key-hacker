@@ -1,6 +1,7 @@
 import socket
 import threading
 import classes
+import modules.generate as generator
 
 PORT = 5000
 

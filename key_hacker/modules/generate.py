@@ -35,5 +35,5 @@ def generate_code(len):
     """
     code = ""
     for i in range(len):
-        code += generate_char
+        code += generate_char()
     return code
