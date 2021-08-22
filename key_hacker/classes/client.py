@@ -19,7 +19,19 @@ class Client:
         self.conn = conn
 
     def is_controlled(self):
+        """
+        Whether or not the client is controlled
+
+        Returns:
+            boolean: True if controlled, False if controller
+        """
         return self.controlled
 
     def get_connection(self):
+        """
+        Gets the connection
+
+        Returns:
+            socket.socket: the connection where everything happens
+        """
         return self.conn

@@ -9,3 +9,6 @@ There's some 2 player games which require both players to be using the same keyb
 - [ ] send client keys over to server
 - [ ] use pyautogui or whatnot to have server "press" the keys
 - [ ] Use mkdocs to make docs
+- [ ] make graphic interface with pygame
+- [ ] create an exe file with the graphical interface
+- [ ] maybe use a more legit protocol
