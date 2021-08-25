@@ -1,0 +1,8 @@
+site_name: Key Hacker Docs
+
+repo_url: https://github.com/vivian-dai/networked-key-hacker
+
+theme:
+  name: mkdocs
+  nav_style: dark
+  custom_dir: docs/theme/
