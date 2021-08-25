@@ -22,7 +22,9 @@ def client_listener(conn, addr):
     new_room = conn.recv(4096).decode("utf-8")
     if (control == "y") or (control == "Y"):
         controller = True
-    conn.send(controller.encode())
+        conn.send("T".encode())
+    else:
+        conn.send("F".encode())
     user = classes.client.Client(not controller, conn)
     if (new_room == "y") or (new_room == "Y"):
         code = generator.generate_code(8)
@@ -30,8 +32,16 @@ def client_listener(conn, addr):
             code = generator.generate_code(8)
         valid_codes.append(code)
         conn.send(code.encode())
+        #TODO: join the room
     else:
-        conn.send("code req")
+        conn.send("code req".encode())
+        code = conn.recv(4096).depode("utf-8")
+        while not code in valid_codes:
+            conn.send("wrong".encode())
+            code = conn.recv(4096).depode("utf-8")
+        conn.send("correct".encode())
+        # TODO: join room
+
     while True:
         msg = conn.recv(4096).decode("utf-8")
         print(msg)
