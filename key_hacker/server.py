@@ -20,6 +20,7 @@ def client_listener(conn, addr):
     controller = False
     control = conn.recv(4096).decode("utf-8")
     new_room = conn.recv(4096).decode("utf-8")
+    room = None
     if (control == "y") or (control == "Y"):
         controller = True
         conn.send("T".encode())
@@ -32,11 +33,12 @@ def client_listener(conn, addr):
             code = generator.generate_code(8)
         valid_codes.append(code)
         conn.send(code.encode())
-        rooms.append(classes.room.Room(code))
+        room = classes.room.Room(code)
+        rooms.append(room)
         if user.is_controlled():
-            rooms[len(rooms) - 1].add_controlled(user)
+            room.add_controlled(user)
         else:
-            rooms[len(rooms) - 1].add_controller(user)
+            room.add_controller(user)
     else:
         conn.send("code req".encode())
         code = conn.recv(4096).decode("utf-8")
@@ -44,13 +46,24 @@ def client_listener(conn, addr):
             conn.send("wrong".encode())
             code = conn.recv(4096).decode("utf-8")
         conn.send("correct".encode())
-        for room in rooms:
-            if room.check_room_code(code):
+        for r in rooms:
+            if r.check_room_code(code):
+                room = r
                 if user.is_controlled():
-                    rooms[len(rooms) - 1].add_controlled(user)
+                    room.add_controlled(user)
                 else:
-                    rooms[len(rooms) - 1].add_controller(user)
-    # TODO: loop to check if user disconnected yet and send stuff to all in room
+                    room.add_controller(user)
+    running = True
+    while running:
+        msg = conn.recv(4096).decode()
+        if msg == "disconnect":
+            running = False
+        else:
+            if not user.is_controlled():
+                targets = room.controlled
+                for target in targets:
+                    target.send(msg)
+            print(msg)
     conn.close()
 
 def main():
