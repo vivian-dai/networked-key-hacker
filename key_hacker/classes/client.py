@@ -35,3 +35,12 @@ class Client:
             socket.socket: the connection where everything happens
         """
         return self.conn
+
+    def send(self, msg):
+        """
+        Sends a message
+
+        Args:
+            msg (string): message to send
+        """
+        self.conn.send(msg.encode())

@@ -62,7 +62,7 @@ def client_listener(conn, addr):
             if not user.is_controlled():
                 targets = room.controlled
                 for target in targets:
-                    target.send(msg)
+                    target.send(msg) #TODO: diffrentiate between keyup and keydown to send over both
             print(msg)
     conn.close()
 

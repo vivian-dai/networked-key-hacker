@@ -7,3 +7,12 @@ theme:
   name: mkdocs
   nav_style: dark
   custom_dir: docs/theme/
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - About: about.md
+  - Development:
+    - Want to contribute?: https://github.com/vivian-dai/networked-key-hacker/pulls
+    - See a problem?: https://github.com/vivian-dai/networked-key-hacker/issues
+    - Questions?: https://github.com/vivian-dai/networked-key-hacker/discussions

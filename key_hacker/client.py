@@ -34,7 +34,8 @@ def main():
             
             if controlling:
                 interface.controller(sock)
-            #TODO: make controlled interface
+            else:
+                interface.controlled(sock)
     except:
         print("rip something failed")
 

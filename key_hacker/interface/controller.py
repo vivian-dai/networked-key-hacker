@@ -1,5 +1,4 @@
 import pygame
-import socket
 
 def setup():
     """
@@ -22,6 +21,6 @@ def controller(conn):
                 running = False
             elif event.type == pygame.KEYDOWN:
                 conn.send(str(event.unicode).encode())
-                print(event.unicode)
+                #TODO: diffrentiate between keyup and keydown to send over both
         pygame.display.flip()
     pygame.quit()
