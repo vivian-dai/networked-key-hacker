@@ -30,6 +30,8 @@ def setup():
                     sock.send(input("sauce join code :)").encode())
                     resp = sock.recv(4096).decode("utf-8")
                 #TODO: code interfaces then open up an interface based on which it is
+            else:
+                print(f"here's your invite code: {code}")
             
     except:
         print("rip something failed")

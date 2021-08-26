@@ -28,23 +28,30 @@ def client_listener(conn, addr):
     user = classes.client.Client(not controller, conn)
     if (new_room == "y") or (new_room == "Y"):
         code = generator.generate_code(8)
-        while not code in valid_codes:
+        while code in valid_codes:
             code = generator.generate_code(8)
         valid_codes.append(code)
         conn.send(code.encode())
-        #TODO: join the room
+        rooms.append(classes.room.Room(code))
+        if user.is_controlled():
+            rooms[len(rooms) - 1].add_controlled(user)
+        else:
+            rooms[len(rooms) - 1].add_controller(user)
     else:
         conn.send("code req".encode())
-        code = conn.recv(4096).depode("utf-8")
+        code = conn.recv(4096).decode("utf-8")
         while not code in valid_codes:
             conn.send("wrong".encode())
-            code = conn.recv(4096).depode("utf-8")
+            code = conn.recv(4096).decode("utf-8")
         conn.send("correct".encode())
-        # TODO: join room
-
-    while True:
-        msg = conn.recv(4096).decode("utf-8")
-        print(msg)
+        for room in rooms:
+            if room.check_room_code(code):
+                if user.is_controlled():
+                    rooms[len(rooms) - 1].add_controlled(user)
+                else:
+                    rooms[len(rooms) - 1].add_controller(user)
+    # TODO: loop to check if user disconnected yet and send stuff to all in room
+    conn.close()
 
 def main():
     """
@@ -53,8 +60,9 @@ def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.bind(("127.0.0.1", 5000))
             sock.listen()
-            conn, addr = sock.accept()
-            threading.Thread(target=client_listener, args=(conn, addr)).start()
+            while True:
+                conn, addr = sock.accept()
+                threading.Thread(target=client_listener, args=(conn, addr)).start()
 
 if __name__ == "__main__":
     main()
