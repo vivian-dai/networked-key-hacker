@@ -56,14 +56,16 @@ def client_listener(conn, addr):
     running = True
     while running:
         msg = conn.recv(4096).decode()
+        cmd = conn.recv(4096).decode()
+        print(msg, cmd)
         if msg == "disconnect":
             running = False
         else:
             if not user.is_controlled():
                 targets = room.controlled
                 for target in targets:
-                    target.send(msg) #TODO: diffrentiate between keyup and keydown to send over both
-            print(msg)
+                    target.send(msg)
+                    target.send(cmd)
     conn.close()
 
 def main():

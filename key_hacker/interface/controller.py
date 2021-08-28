@@ -21,6 +21,10 @@ def controller(conn):
                 running = False
             elif event.type == pygame.KEYDOWN:
                 conn.send(str(event.unicode).encode())
-                #TODO: diffrentiate between keyup and keydown to send over both
+                conn.send("d".encode())
+            elif event.type == pygame.KEYUP:
+                conn.send(str(chr(event.key)).encode())
+                conn.send("u".encode())
         pygame.display.flip()
     pygame.quit()
+    
